@@ -11,14 +11,21 @@ const app = express();
 const port = process.env.PORT || 8081;
 
 
-
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.set('Access-Control-Allow-Methods', "GET, POST, PUT, DELETE");
+    res.set('Content-Type', 'application/json');
+    next();
+});
 
-
-app.use('/api', userRoutes);
+app.use('/api/user', userRoutes);
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 app.get('/test', (req, res) => {
@@ -36,7 +43,7 @@ app.post('/api/login', async (req, res) => {
     const connection = await dbConnection.createConnection();
 
     try {
-        const [rows] = await connection.execute('SELECT * FROM tbl_121_users WHERE username = ? AND user_password = ?', [username, password]);
+        const [rows] = await connection.execute('SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = ? AND user_password = ?', [username, password]);
 
         if (rows.length > 0) {
             // User found and password matches

@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:8081/api/login', { // Ensure URL is correct
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
+            const response = await fetch('http://127.0.0.1:8081/api/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ username, password })
             });
 
             if (!response.ok) {
