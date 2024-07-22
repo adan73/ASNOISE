@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
   last_name: { type: String, required: true },
   user_password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  profile_image: { type: String, required: false } 
+  profile_image: { type: String, required: false } ,
+  username: { type: String, required: true } 
+
 });
 
 module.exports = mongoose.model('User', userSchema);
