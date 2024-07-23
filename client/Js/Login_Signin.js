@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (data.success) {
-                    localStorage.setItem('userName', username);
+                    window.sessionStorage.setItem('userName', username);
                     window.location.href = 'index.html';
                 } else {
                     alert(data.error || 'Login failed');
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (data.success) {
-                    localStorage.setItem('userName', username);
+                    window.sessionStorage.setItem('userName', username);
                     window.location.href = 'index.html';
                 } else {
                     alert(data.error || 'Sign in failed');
