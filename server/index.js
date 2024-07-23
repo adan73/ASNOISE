@@ -25,7 +25,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.static('client'));
-app.use('/api', userRoutes);
+app.use('/api/users', userRoutes);
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 app.get('/test', (req, res) => {
