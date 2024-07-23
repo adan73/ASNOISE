@@ -27,12 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok.');
                 }
-
                 const data = await response.json();
+                console.log('Login response:', data);
 
                 if (data.success) {
                     window.sessionStorage.setItem('userName', username);
-                    window.location.href = 'index.html';
+                    if (data.user_type === 'doctor') {
+                        window.location.href = 'index.html';
+                    } else {
+                        window.location.href = 'patientside.html';
+                    }
                 } else {
                     alert(data.error || 'Login failed');
                 }
@@ -79,7 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (data.success) {
                     window.sessionStorage.setItem('userName', username);
+                    if(user_type === 'doctor')
                     window.location.href = 'index.html';
+                    else{
+                        window.location.href = 'patienside.html';  
+                    }
                 } else {
                     alert(data.error || 'Sign in failed');
                 }
