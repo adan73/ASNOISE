@@ -1318,3 +1318,11 @@
   float: left;
    
  }
+
+ .input-group select {
+  width: 160px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
