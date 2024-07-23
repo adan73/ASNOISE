@@ -24,7 +24,7 @@ app.use((req, res, next) => {
     res.set('Content-Type', 'application/json');
     next();
 });
-
+app.use(express.static('client'));
 app.use('/api', userRoutes);
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
