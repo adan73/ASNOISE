@@ -72,7 +72,7 @@
     position: relative;
   }
   
-  .profile-pic {
+  #profile-pic {
     width: 62px;
     height: 62px;
     border-radius: 50px;
@@ -211,7 +211,7 @@
   
   
   
-  #patione img {
+  .patione-img {
     width: 57px;
     height: 57px;
     opacity: 0.85;
@@ -228,7 +228,7 @@
     padding-left: 0px;
   }
   
-  #patione li {
+  .patient-li {
     border-color: #3f3f3f49;
     border: 1px solid rgba(63, 63, 63, 0.155);
     box-sizing: border-box;
