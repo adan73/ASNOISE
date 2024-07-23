@@ -3,5 +3,6 @@ const { patientController } = require('../controllers/patientController'); // En
 const patient_router = express.Router();
 
 patient_router.post('/addPatient', patientController.addPatient);
+patient_router.get('/Allpatients', patientController.getPatients);
 
 module.exports = patient_router;
