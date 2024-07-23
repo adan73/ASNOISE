@@ -35,7 +35,23 @@ const patientController = {
     } finally {
       await connection.end();
     }
+    },
+
+    async  getPatients(req, res) {
+    const connection = await dbConnection.createConnection();
+    try {
+      const [rows] = await connection.execute('SELECT * FROM dbShnkr24stud.tbl_121_patients '); 
+      if (rows.length === 0) {
+        return res.status(400).json({ error: "There are no patients" });
+      }
+      res.status(200).json({ patients: rows });
+    } catch (err) {
+      console.error('Error fetching patients from database:', err);
+      res.status(500).json({ error: 'Error fetching patients from database' });
+    } finally {
+      await connection.end();
     }
+  }
       
 
 
