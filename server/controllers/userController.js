@@ -105,7 +105,8 @@ const userController = {
         `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${username}' AND user_password = '${password}'`
       );
       if (rows.length > 0) {
-        res.json({ success: true });
+        const user = rows[0];
+        res.json({ success: true, user_type: user.user_type });
       } else {
         res.status(401).json({ error: "Invalid username or password" });
       }
