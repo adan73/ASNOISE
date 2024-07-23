@@ -2,12 +2,11 @@ const { dbConnection } = require("../db_connection");
 
 const userController = {
   async addUser(req, res) {
-    const {users_id,first_name,last_name,user_password,email,profile_image,username,} = req.body;
+    const {users_id,first_name,last_name,user_password,email,profile_image,username,user_type} = req.body;
 
-    if (!users_id ||!first_name ||!last_name ||!user_password ||!email ||!profile_image ||!username) {
+    if (!users_id ||!first_name ||!last_name ||!user_password ||!email ||!profile_image ||!username || !user_type) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-
     const connection = await dbConnection.createConnection();
 
     try {
@@ -34,10 +33,11 @@ const userController = {
       if (rows3.length > 0) {
         return res.status(400).json({ error: "Email already exists" });
       }
-
       const [result] = await connection.execute(
-        `INSERT INTO dbShnkr24stud.tbl_121_users (users_id, first_name, last_name, user_password, email, profile_image, username) VALUES ('${users_id}', '${first_name}', '${last_name}','${user_password}','${email}', '${profile_image}', '${username}')`
-      );
+        `INSERT INTO dbShnkr24stud.tbl_121_users (users_id, first_name, last_name, user_password, email, profile_image, username, user_type) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [users_id, first_name, last_name, user_password, email, profile_image, username, user_type]
+    );
 
       if (result.affectedRows > 0) {
         res
