@@ -36,10 +36,10 @@ app.get('/test', (req, res) => {
 
 
 
-app.listen(port, '127.0.0.1', (err) => {
+app.listen(port ,(err) => {
     if (err) {
         console.error('Error starting server:', err);
         process.exit(1);
     }
-    console.log(`Server is running on http://127.0.0.1:${port}`);
+    console.log(`Server is running on ${port}`);
 });
