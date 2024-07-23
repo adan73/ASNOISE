@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch('https://asnoise-4.onrender.com/api/login', {
+                const response = await fetch('https://asnoise-4.onrender.com/api/users/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch('https://asnoise-4.onrender.com/api/addUser', {
+                const response = await fetch('https://asnoise-4.onrender.com/api/users/addUser', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
