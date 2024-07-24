@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const patientRoutes = require('./routes/patientRoutes');
+const activityRoutes = require('./routes/activityRoutes');
 
 const { dbConnection } = require('../server/db_connection');
 
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.static('client'));
+app.use('/api/activity', activityRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/users', userRoutes);
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
