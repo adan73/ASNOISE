@@ -3,9 +3,9 @@ const { dbConnection } = require("../db_connection");
 
 const activityController = {
     async addActivity(req, res) {
-      const {username ,time ,the_activity } = req.body;
+      const {username ,time ,the_activity , date} = req.body;
   
-      if (!the_activity ||!time ||!username ) {
+      if (!the_activity ||!time ||!username || !date) {
         return res.status(400).json({ error: "Missing required fields" });
       }
       const connection = await dbConnection.createConnection();
@@ -23,8 +23,8 @@ const activityController = {
         }
   
         const [result] = await connection.execute(
-          `INSERT INTO dbShnkr24stud.tbl_121_user_activity (username ,time ,the_activity ) 
-          VALUES ( '${username}' ,  '${time}' ,  '${the_activity}')`);
+          `INSERT INTO dbShnkr24stud.tbl_121_user_activity (username ,time ,the_activity , date ) 
+          VALUES ( '${username}' ,  '${time}' ,  '${the_activity}' , '${date}')`);
   
         if (result.affectedRows > 0) {
           res
@@ -52,6 +52,7 @@ const activityController = {
         if (rows.length === 0) {
           return res.status(404).json({ error: "User doesn't have a activities " });
         }
+
         res.status(200).json(rows);
 
       } catch (err) {
