@@ -63,7 +63,7 @@ const activityController = {
     },
     async  getActivityFor_Date(req, res) {
       const connection = await dbConnection.createConnection();
-      const selectedDate  = req.body;
+      const {selectedDate}  = req.body;
     
       try {
         if (!selectedDate) {
