@@ -41,11 +41,7 @@ const activityController = {
       }
     },
     async getActivity(req, res) {
-      const { username } = req.body;
-  
-      if ( !username) {
-        return res.status(400).json({ error: "Missing required fields" });
-      }
+      const username = document.getElementById('user-name');
       const connection = await dbConnection.createConnection();
   
       try {
@@ -57,12 +53,10 @@ const activityController = {
           return res.status(404).json({ error: "User doesn't have a activities " });
         }
         res.status(200).json(rows);
-        
+
       } catch (err) {
         console.error("Error retrieving user from the database:", err.message);
-        res
-          .status(500)
-          .json({ error: "Error retrieving data from the database" });
+        res.status(500).json({ error: "Error retrieving data from the database" });
       } finally {
         connection.end();
       }
