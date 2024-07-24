@@ -45,7 +45,7 @@ const activityController = {
   
       try {
         let [rows] = await connection.execute(
-          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity'`
+          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity`
         );
   
         if (rows.length === 0) {
