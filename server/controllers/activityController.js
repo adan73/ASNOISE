@@ -41,16 +41,15 @@ const activityController = {
       }
     },
     async getActivity(req, res) {
-      const username = document.getElementById('user-name');
       const connection = await dbConnection.createConnection();
   
       try {
         let [rows] = await connection.execute(
-          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE username = '${username}'`
+          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity'`
         );
   
         if (rows.length === 0) {
-          return res.status(404).json({ error: "User doesn't have a activities " });
+          return res.status(404).json({ error: "there no activity " });
         }
 
         res.status(200).json(rows);
