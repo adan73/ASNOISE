@@ -6,7 +6,7 @@ window.onload = () => {
         userNameElement.textContent = userName ? userName : 'Guest'; 
     }
 
-   
+    PrintPatientsList();
 };
 
 function PrintPatientsList() {
@@ -50,5 +50,9 @@ function PrintPatientsList() {
     });
   
     personInfo.appendChild(ul);
+    
+  if (!window.sessionStorage.getItem("result")) {
+    window.sessionStorage.setItem("result", JSON.stringify(data.patients));
+  }
   }
   
