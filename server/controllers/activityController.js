@@ -40,7 +40,7 @@ const activityController = {
         await connection.end();
       }
     },
-    async getActivity(req, res) {
+    async getAllActivity(req, res) {
       const connection = await dbConnection.createConnection();
   
       try {
@@ -60,7 +60,33 @@ const activityController = {
       } finally {
         connection.end();
       }
+    },
+    async  getActivityFor_Date(req, res) {
+      const connection = await dbConnection.createConnection();
+      const selectedDate  = req.body;
+    
+      try {
+        if (!selectedDate) {
+          return res.status(400).json({ error: "No date provided" });
+        }
+    
+        let [rows] = await connection.execute(
+          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE date = '${selectedDate}'` );
+    
+        if (rows.length === 0) {
+          return res.status(404).json([]);
+        }
+    
+        res.status(200).json(rows);
+    
+      } catch (err) {
+        console.error("Error retrieving user from the database:", err.message);
+        res.status(500).json({ error: "Error retrieving data from the database" });
+      } finally {
+        connection.end();
+      }
     }
+    
 
 };
 
