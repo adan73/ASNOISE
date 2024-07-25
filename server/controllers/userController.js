@@ -2,9 +2,9 @@ const { dbConnection } = require("../db_connection");
 
 const userController = {
   async addUser(req, res) {
-    const {users_id,first_name,last_name,user_password,email,profile_image,username,user_type} = req.body;
+    const {users_id,first_name,last_name,user_password,email,photo,username,user_type} = req.body;
 
-    if (!users_id ||!first_name ||!last_name ||!user_password ||!email ||!profile_image ||!username || !user_type) {
+    if (!users_id ||!first_name ||!last_name ||!user_password ||!email ||!photo ||!username || !user_type) {
       return res.status(400).json({ error: "Missing required fields" });
     }
     const connection = await dbConnection.createConnection();
@@ -34,9 +34,9 @@ const userController = {
         return res.status(400).json({ error: "Email already exists" });
       }
       const [result] = await connection.execute(
-        `INSERT INTO dbShnkr24stud.tbl_121_users (users_id, first_name, last_name, user_password, email, profile_image, username, user_type) 
+        `INSERT INTO dbShnkr24stud.tbl_121_users (users_id, first_name, last_name, user_password, email, photo, username, user_type) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [users_id, first_name, last_name, user_password, email, profile_image, username, user_type]
+        [users_id, first_name, last_name, user_password, email, photo, username, user_type]
     );
 
       if (result.affectedRows > 0) {
@@ -117,6 +117,38 @@ const userController = {
       await connection.end();
     }
   },
+  
+  async getUserFirstNameAndPhotoAndId(req, res) {
+    const { username } = req.body;
+
+    if (username) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+    const connection = await dbConnection.createConnection();
+
+    try {
+      let [rows] = await connection.execute(
+        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${username}'`
+      );
+
+      if (rows.length === 0) {
+        return res
+          .status(404)
+          .json({ error: "User not found , username is invalid" });
+      }
+      if (rows.length > 0) {
+        const user = rows[0];
+        res.json({ success: true, first_name: user.first_name , photo: user.photo , id: user.users_id});
+      }
+    } catch (err) {
+      console.error("Error retrieving user from the database:", err.message);
+      res
+        .status(500)
+        .json({ error: "Error retrieving data from the database" });
+    } finally {
+      connection.end();
+    }
+  }
 };
 
 module.exports = { userController };
