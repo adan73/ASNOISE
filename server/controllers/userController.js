@@ -121,7 +121,7 @@ const userController = {
   async getUserFirstNameAndPhotoAndId(req, res) {
     const { username } = req.body;
 
-    if (username) {
+    if (!username) {
       return res.status(400).json({ error: "Missing required fields" });
     }
     const connection = await dbConnection.createConnection();

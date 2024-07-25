@@ -54,6 +54,10 @@ const patientController = {
   },
   async  getDoctorPatients(req, res) {
     const{username,photo} = req.body;
+    
+    if (!username || !photo) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
     const connection = await dbConnection.createConnection();
     try {
       const [rows] = await connection.execute( `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${username}' AND doctor_photo = '${photo}' `); 
@@ -70,6 +74,10 @@ const patientController = {
   },
   async  getDoctor(req, res) {
     const{patient_id} = req.body;
+    
+    if (!patient_id) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
     const connection = await dbConnection.createConnection();
     try {
       const [rows] = await connection.execute( `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${patient_id}' `); 
