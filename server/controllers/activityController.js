@@ -12,7 +12,7 @@ const activityController = {
   
       try {
         let [rows1] = await connection.execute(
-          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE username= '${username}'   date = '${date}' AND time = '${time}'`);
+          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE username= '${username}' AND  date = '${date}' AND time = '${time}'`);
         if (rows1.length > 0) {
           return res.status(400).json({ error: "There is an activity in this time in this date for the username already" });
         }
