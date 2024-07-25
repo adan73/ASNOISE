@@ -12,14 +12,9 @@ const activityController = {
   
       try {
         let [rows1] = await connection.execute(
-          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE time = '${time}'`);
+          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE date = '${date}', time = '${time}'`);
         if (rows1.length > 0) {
-          return res.status(400).json({ error: "There is an activity in this time already" });
-        }
-        let [rows2] = await connection.execute(
-          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE the_activity = '${the_activity}'`);
-        if (rows2.length > 0) {
-          return res.status(400).json({ error: "This activity already exist" });
+          return res.status(400).json({ error: "There is an activity in this time in this date already" });
         }
   
         const [result] = await connection.execute(
@@ -63,15 +58,15 @@ const activityController = {
     },
     async  getActivityFor_Date(req, res) {
       const connection = await dbConnection.createConnection();
-      const {selectedDate}  = req.body;
+      const {username , date}  = req.body;
     
       try {
-        if (!selectedDate) {
-          return res.status(400).json({ error: "No date provided" });
+        if (!date || !username) {
+          return res.status(400).json({ error: "No date or username provided" });
         }
     
         let [rows] = await connection.execute(
-          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE date = '${selectedDate}'` );
+          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE username = '${username}', date = '${date}'` );
     
         if (rows.length === 0) {
           return res.status(404).json([]);
