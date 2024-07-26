@@ -54,9 +54,7 @@ const patientController = {
   },async getDoctorPatients(req, res) {
     const connection = await dbConnection.createConnection();
     try {
-        const [rows] = await connection.execute(
-            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${req.query.doctor}' AND doctor_photo = '${req.query.doctor_photo}'`
-        );
+        const [rows] = await connection.execute(`SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${req.params.doctor}' AND doctor_photo= '${req.params.doctor_photo}'`);
 
         if (rows.length === 0) {
             return res.status(400).json({ error: "There are no patients" });
