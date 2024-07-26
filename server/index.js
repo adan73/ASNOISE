@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 const userRoutes = require('./routes/userRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const activityRoutes = require('./routes/activityRoutes');
@@ -27,6 +28,8 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.static('client'));
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+
 app.use('/api/activity', activityRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/users', userRoutes);

@@ -1,5 +1,21 @@
 const { dbConnection } = require("../db_connection");
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
+async function downloadImage(url) {
+  const filename = path.basename(url);
+  const filePath = path.join(__dirname, 'public', 'images', filename);
+
+  try {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+    fs.writeFileSync(filePath, response.data);
+    return `/images/${filename}`;
+  } catch (error) {
+    console.error('Error downloading the image:', error.message);
+    throw new Error('Failed to download image');
+  }
+}
 const userController = {
   async addUser(req, res) {
     const {users_id,first_name,last_name,user_password,email,photo,username,user_type} = req.body;
@@ -7,6 +23,12 @@ const userController = {
     if (!users_id ||!first_name ||!last_name ||!user_password ||!email ||!photo ||!username || !user_type) {
       return res.status(400).json({ error: "Missing required fields" });
     }
+    const localPhotoPath = photo;
+    if (photo.startsWith('http')) {
+      localPhotoPath = await downloadImage(photo);
+    }
+
+
     const connection = await dbConnection.createConnection();
 
     try {
@@ -36,7 +58,7 @@ const userController = {
       const [result] = await connection.execute(
         `INSERT INTO dbShnkr24stud.tbl_121_users (users_id, first_name, last_name, user_password, email, photo, username, user_type) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [users_id, first_name, last_name, user_password, email, photo, username, user_type]
+        [users_id, first_name, last_name, user_password, email, localPhotoPath, username, user_type]
     );
 
       if (result.affectedRows > 0) {
@@ -135,7 +157,8 @@ const userController = {
     } finally {
       connection.end();
     }
-  }
+  },
+  
 };
 
 module.exports = { userController };
