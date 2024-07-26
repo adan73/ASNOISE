@@ -29,7 +29,7 @@ const patientController = {
     }
   } catch (err) {
     console.error("Error inserting patient into the database:", err.message);
-    res.status(500).json({ error: "Error inserting patient into the database" });
+    res.status(500).json({ error: "Error inserting patient into the database" , first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo, doctor , doctor_photo });
   } finally {
     await connection.end();
   }
