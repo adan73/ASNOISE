@@ -94,10 +94,32 @@ const patientController = {
     } finally {
       await connection.end();
     }
+  },
+  async  deletePatient(req, res) {
+    const { patient_id } = req.body;
+  
+    if (!patient_id) {
+      return res.status(400).json({ error: "Missing patient_id" });
+    }
+  
+    const connection = await dbConnection.createConnection();
+  
+    try {
+      const [result] = await connection.execute(
+        `DELETE FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${patient_id}'`);
+  
+      if (result.affectedRows > 0) {
+        res.status(200).json({ success: true, message: "Patient deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Patient not found" });
+      }
+    } catch (err) {
+      console.error("Error deleting patient from the database:", err.message);
+      res.status(500).json({ error: "Error deleting patient from the database" });
+    } finally {
+      connection.end();
+    }
   }
-      
-
-
-};
+};    
 
 module.exports = { patientController };

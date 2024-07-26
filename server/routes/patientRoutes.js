@@ -6,5 +6,5 @@ patient_router.post('/addPatient', patientController.addPatient);
 patient_router.get('/Allpatients', patientController.getPatients);
 patient_router.post('/getDoctorPatients', patientController.getDoctorPatients);
 patient_router.post('/getDoctor', patientController.getDoctor);
-
+patient_router.delete('/deletePatient', patientController.deletePatient);
 module.exports = patient_router;
