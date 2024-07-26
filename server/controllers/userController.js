@@ -1,30 +1,4 @@
 const { dbConnection } = require("../db_connection");
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
-
-async function downloadImage(url) {
-    const filename = path.basename(new URL(url).pathname);
-    const filePath = path.join(__dirname, 'public', 'images', filename);
-
-    try {
-        console.log(`Downloading image from URL: ${url}`);
-        const response = await axios.get(url, { responseType: 'arraybuffer' });
-
-
-        if (response.status === 200) {
-            fs.writeFileSync(filePath, response.data);
-            console.log(`Image saved to ${filePath}`);
-            return `/images/${filename}`;
-        } else {
-            throw new Error(`Failed to download image, status code: ${response.status}`);
-        }
-    } catch (error) {
-        console.error('Error downloading the image:', error.message);
-        throw new Error('Failed to download image');
-    }
-}
-
 
 const userController = {
   async addUser(req, res) {
@@ -33,15 +7,8 @@ const userController = {
     if (!users_id ||!first_name ||!last_name ||!user_password ||!email ||!photo ||!username || !user_type) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    let localPhotoPath = photo;
-    if (photo.startsWith('http')) {
-        try {
-            localPhotoPath = await downloadImage(photo);
-        } catch (error) {
-            return res.status(500).json({ error: "Failed to download image" });
-        }
-    }
-
+    let localPhotoPath = photo; 
+    
     const connection = await dbConnection.createConnection();
 
     try {
