@@ -14,14 +14,12 @@ const patientController = {
       
         try {
           let [rows] = await connection.execute(
-              `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = ?`,
-              [patient_id]
-            );
+              `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${patient_id}'`, );
             if (rows.length > 0) {
               return res.status(400).json({ error: "patient already exists" });
             }
             const [result] = await connection.execute(
-          `INSERT INTO dbShnkr24stud.tbl_121_patients (first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo , doctor , doctor_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
+          `INSERT INTO dbShnkr24stud.tbl_121_patients (first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo , doctor , doctor_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)`,
           [first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo, doctor , doctor_photo] );
 
     if (result.affectedRows > 0) {
