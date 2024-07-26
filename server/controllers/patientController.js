@@ -51,50 +51,62 @@ const patientController = {
     } finally {
       await connection.end();
     }
-  },
-  async  getDoctorPatients(req, res) {
-    const{doctor,doctor_photo} = req.params;
-    
-    if (!first_name || !photo) {
-      return res.status(400).json({ error: "Missing required fields" });
+  },async getDoctorPatients(req, res) {
+    const { doctor, doctor_photo } = req.params;
+
+    if (!doctor || !doctor_photo) {
+        return res.status(400).json({ error: "Missing required fields" });
     }
+
     const connection = await dbConnection.createConnection();
     try {
-      const [rows] = await connection.execute( `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${doctor}' AND doctor_photo = '${doctor_photo}' `); 
-      if (rows.length === 0) {
-        return res.status(400).json({ error: "There are no patients" });
-      }
-      res.status(200).json({ patients: rows });
+        const [rows] = await connection.execute(
+            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = ? AND doctor_photo = ?`,
+            [doctor, doctor_photo]
+        );
+
+        if (rows.length === 0) {
+            return res.status(400).json({ error: "There are no patients" });
+        }
+        res.status(200).json({ patients: rows });
     } catch (err) {
-      console.error('Error fetching patients from database:', err);
-      res.status(500).json({ error: 'Error fetching patients from database' });
+        console.error('Error fetching patients from database:', err);
+        res.status(500).json({ error: 'Error fetching patients from database' });
     } finally {
-      await connection.end();
+        await connection.end();
     }
-  },
-  async  getDoctor(req, res) {
-    const{patient_id} =  req.params;
-    
+},
+
+async getDoctor(req, res) {
+    const { patient_id } = req.params;
+
     if (!patient_id) {
-      return res.status(400).json({ error: "Missing required fields" });
+        return res.status(400).json({ error: "Missing patient_id" });
     }
+
     const connection = await dbConnection.createConnection();
     try {
-      const [rows] = await connection.execute( `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${patient_id}' `); 
-      if (rows.length === 0) {
-        return res.status(400).json({ error: "There are no patient with this id" });
-      }
-      if (rows.length > 0) {
-        const patient = rows[0];
-        res.json({ doctor: patient.doctor , doctor_photo: patient.doctor_photo});
-      }
+        const [rows] = await connection.execute(
+            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = ?`,
+            [patient_id]
+        );
+
+        if (rows.length === 0) {
+            return res.status(400).json({ error: "There are no patients with this id" });
+        }
+
+        if (rows.length > 0) {
+            const patient = rows[0];
+            res.json({ doctor: patient.doctor, doctor_photo: patient.doctor_photo });
+        }
     } catch (err) {
-      console.error('Error fetching patients from database:', err);
-      res.status(500).json({ error: 'Error fetching patients from database' });
+        console.error('Error fetching patients from database:', err);
+        res.status(500).json({ error: 'Error fetching patients from database' });
     } finally {
-      await connection.end();
+        await connection.end();
     }
-  },
+},
+
   async  deletePatient(req, res) {
     const { patient_id } = req.body;
   

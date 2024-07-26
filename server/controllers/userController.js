@@ -54,7 +54,7 @@ const userController = {
     }
   },
   async getUser(req, res) {
-    const { username, user_password } = req.body;
+    const { username, user_password } = req.query;
 
     if (!user_password || !username) {
       return res.status(400).json({ error: "Missing required fields" });
@@ -119,7 +119,7 @@ const userController = {
   },
   
   async getUserFirstNameAndPhotoAndId(req, res) {
-    const { username } = req.body;
+    const { username } = req.params;
 
     if (!username) {
       return res.status(400).json({ error: "Missing required fields" });
