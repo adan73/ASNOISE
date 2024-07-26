@@ -59,7 +59,7 @@ const userController = {
 
     try {
       let [rows] = await connection.execute(
-        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${req.params.username}' AND '${req.params.password}'`
+        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${req.params.username}' AND '${req.params.user_password}'`
       );
 
       if (rows.length === 0) {
