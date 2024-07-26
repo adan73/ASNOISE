@@ -4,13 +4,13 @@ const fs = require('fs');
 const path = require('path');
 
 async function downloadImage(url) {
-    const filename = path.basename(url);
+    const filename = path.basename(new URL(url).pathname);
     const filePath = path.join(__dirname, 'public', 'images', filename);
 
     try {
         console.log(`Downloading image from URL: ${url}`);
         const response = await axios.get(url, { responseType: 'arraybuffer' });
-        console.log(`Response status: ${response.status}`); // Debug log
+
 
         if (response.status === 200) {
             fs.writeFileSync(filePath, response.data);
