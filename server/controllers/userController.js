@@ -25,9 +25,12 @@ const userController = {
     }
     const localPhotoPath = photo;
     if (photo.startsWith('http')) {
-      localPhotoPath = await downloadImage(photo);
+      try {
+        localPhotoPath = await downloadImage(photo);
+      } catch (error) {
+        return res.status(500).json({ error: "Failed to download image" });
+      }
     }
-
 
     const connection = await dbConnection.createConnection();
 
