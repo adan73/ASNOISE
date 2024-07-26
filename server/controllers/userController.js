@@ -4,24 +4,27 @@ const fs = require('fs');
 const path = require('path');
 
 async function downloadImage(url) {
-  const filename = path.basename(url);
-  const filePath = path.join(__dirname, 'public', 'images', filename);
+    const filename = path.basename(url);
+    const filePath = path.join(__dirname, 'public', 'images', filename);
 
-  try {
-    console.log(`Downloading image from URL: ${url}`);
-    const response = await axios.get(url, { responseType: 'arraybuffer' });
-    console.log(`Response status: ${response.status}`); // Debug log
-    if (response.status === 200) {
-      fs.writeFileSync(filePath, response.data);
-      return `/images/${filename}`;
-    } else {
-      throw new Error(`Failed to download image, status code: ${response.status}`);
+    try {
+        console.log(`Downloading image from URL: ${url}`);
+        const response = await axios.get(url, { responseType: 'arraybuffer' });
+        console.log(`Response status: ${response.status}`); // Debug log
+
+        if (response.status === 200) {
+            fs.writeFileSync(filePath, response.data);
+            console.log(`Image saved to ${filePath}`);
+            return `/images/${filename}`;
+        } else {
+            throw new Error(`Failed to download image, status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error downloading the image:', error.message);
+        throw new Error('Failed to download image');
     }
-  } catch (error) {
-    console.error('Error downloading the image:', error.message);
-    throw new Error('Failed to download image');
-  }
 }
+
 
 const userController = {
   async addUser(req, res) {
@@ -30,13 +33,13 @@ const userController = {
     if (!users_id ||!first_name ||!last_name ||!user_password ||!email ||!photo ||!username || !user_type) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    const localPhotoPath = photo;
+    let localPhotoPath = photo;
     if (photo.startsWith('http')) {
-      try {
-        localPhotoPath = await downloadImage(photo);
-      } catch (error) {
-        return res.status(500).json({ error: "Failed to download image" });
-      }
+        try {
+            localPhotoPath = await downloadImage(photo);
+        } catch (error) {
+            return res.status(500).json({ error: "Failed to download image" });
+        }
     }
 
     const connection = await dbConnection.createConnection();
