@@ -54,16 +54,12 @@ const userController = {
     }
   },
   async getUser(req, res) {
-    const { username, user_password } = req.params;
-
-    if (!user_password || !username) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+  
     const connection = await dbConnection.createConnection();
 
     try {
       let [rows] = await connection.execute(
-        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${username}'`
+        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${req.params.username}'`
       );
 
       if (rows.length === 0) {
@@ -74,7 +70,7 @@ const userController = {
 
       const user = rows[0];
 
-      if (user.user_password !== user_password) {
+      if (user.user_password !== req.params.user_password) {
         return res.status(401).json({ error: "Invalid password" });
       }
 
@@ -119,16 +115,12 @@ const userController = {
   },
   
   async getUserFirstNameAndPhotoAndId(req, res) {
-    const { username } = req.params;
-
-    if (!username) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+    
     const connection = await dbConnection.createConnection();
 
     try {
       let [rows] = await connection.execute(
-        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${username}'`
+        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${req.params.username}'`
       );
 
       if (rows.length === 0) {

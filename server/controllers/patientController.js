@@ -52,17 +52,10 @@ const patientController = {
       await connection.end();
     }
   },async getDoctorPatients(req, res) {
-    const { doctor, doctor_photo } = req.params;
-
-    if (!doctor || !doctor_photo) {
-        return res.status(400).json({ error: "Missing required fields" });
-    }
-
     const connection = await dbConnection.createConnection();
     try {
         const [rows] = await connection.execute(
-            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = ? AND doctor_photo = ?`,
-            [doctor, doctor_photo]
+            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${req.params.doctor}' AND doctor_photo = '${req.params.doctor_photo}'`
         );
 
         if (rows.length === 0) {
@@ -78,16 +71,12 @@ const patientController = {
 },
 
 async getDoctor(req, res) {
-    const { patient_id } = req.params;
-
-    if (!patient_id) {
-        return res.status(400).json({ error: "Missing patient_id" });
-    }
+    
 
     const connection = await dbConnection.createConnection();
     try {
         const [rows] = await connection.execute(
-            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = ?`,
+            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${req.params.patient_id}'`,
             [patient_id]
         );
 
