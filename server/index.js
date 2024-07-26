@@ -28,7 +28,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.static('client'));
-app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+app.use('/images_s', express.static(path.join(__dirname, 'public', 'images_s')));
 
 app.use('/api/activity', activityRoutes);
 app.use('/api/patients', patientRoutes);
