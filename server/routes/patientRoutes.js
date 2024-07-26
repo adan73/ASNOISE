@@ -4,8 +4,8 @@ const patient_router = express.Router();
 
 patient_router.post('/addPatient', patientController.addPatient);
 patient_router.get('/Allpatients', patientController.getPatients);
-patient_router.post('/getDoctorPatients', patientController.getDoctorPatients);
-patient_router.post('/getDoctor', patientController.getDoctor);
-patient_router.delete('/deletePatient', patientController.deletePatient);
-patient_router.post('/updatePatient', patientController.updatePatient);
+patient_router.get('/:first_name,photo', patientController.getDoctorPatients);
+patient_router.get('/:patient_id', patientController.getDoctor);
+patient_router.delete('/:patient_id', patientController.deletePatient);
+patient_router.put('/', patientController.updatePatient);
 module.exports = patient_router;
