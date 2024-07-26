@@ -10,36 +10,32 @@ const patientController = {
           return res.status(400).json({ error: "Missing required fields" });
         }
         
-        const validFilePattern = /^[\w,\s-]+\.(png)$/i;
-        if (!validFilePattern.test(photo) || !validFilePattern.test(doctor_photo)) {
-        return res.status(400).json({ error: "Invalid file name for photo or doctor_photo" });
-        }
         const connection = await dbConnection.createConnection();
       
         try {
-            let [rows] = await connection.execute(
-                `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = ?`,
-                [patient_id]
-              );
-              if (rows.length > 0) {
-                return res.status(400).json({ error: "patient already exists" });
-              }
-              const [result] = await connection.execute(
-            `INSERT INTO dbShnkr24stud.tbl_121_patients (first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo , doctor , doctor_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)`,
-            [first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo, doctor , doctor_photo] );
-    
-      if (result.affectedRows > 0) {
-        res.status(200).json({ success: true, message: "Patient added successfully" });
-      } else {
-        res.status(500).json({ error: "Failed to add Patient" });
-      }
-    } catch (err) {
-      console.error("Error inserting user into the database:", err.message);
-      res.status(500).json({ error: "Error inserting user into the database" });
-    } finally {
-      await connection.end();
+          let [rows] = await connection.execute(
+              `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = ?`,
+              [patient_id]
+            );
+            if (rows.length > 0) {
+              return res.status(400).json({ error: "patient already exists" });
+            }
+            const [result] = await connection.execute(
+          `INSERT INTO dbShnkr24stud.tbl_121_patients (first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo , doctor , doctor_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
+          [first_name, last_name,patient_id, hmo,  adhdStage, age, career,  address,phone, email,photo, doctor , doctor_photo] );
+
+    if (result.affectedRows > 0) {
+      res.status(200).json({ success: true, message: "Patient added successfully" });
+    } else {
+      res.status(500).json({ error: "Failed to add Patient" });
     }
-    },
+  } catch (err) {
+    console.error("Error inserting patient into the database:", err.message);
+    res.status(500).json({ error: "Error inserting user into the database" });
+  } finally {
+    await connection.end();
+  }
+  },
 
     async  getPatients(req, res) {
     const connection = await dbConnection.createConnection();
