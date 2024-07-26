@@ -10,6 +10,10 @@ const patientController = {
           return res.status(400).json({ error: "Missing required fields" });
         }
         
+        const validFilePattern = /^[\w,\s-]+\.(png)$/i;
+        if (!validFilePattern.test(photo) || !validFilePattern.test(doctor_photo)) {
+        return res.status(400).json({ error: "Invalid file name for photo or doctor_photo" });
+        }
         const connection = await dbConnection.createConnection();
       
         try {

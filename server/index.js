@@ -14,6 +14,11 @@ const app = express();
 const port = process.env.PORT || 8081;
 
 
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
+
+
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -28,7 +33,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.static('client'));
-app.use('/images_s', express.static(path.join(__dirname, 'public', 'images_s')));
+
 
 app.use('/api/activity', activityRoutes);
 app.use('/api/patients', patientRoutes);
