@@ -55,7 +55,7 @@ const patientController = {
     const connection = await dbConnection.createConnection();
     try {
         const [rows] = await connection.execute(
-            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${req.params.doctor}' AND doctor_photo = '${req.params.doctor_photo}'`
+            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${req.query.doctor}' AND doctor_photo = '${req.query.doctor_photo}'`
         );
 
         if (rows.length === 0) {
