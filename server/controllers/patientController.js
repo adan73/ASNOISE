@@ -53,14 +53,14 @@ const patientController = {
     }
   },
   async  getDoctorPatients(req, res) {
-    const{username,photo} = req.body;
+    const{first_name,photo} = req.body;
     
-    if (!username || !photo) {
+    if (!first_name || !photo) {
       return res.status(400).json({ error: "Missing required fields" });
     }
     const connection = await dbConnection.createConnection();
     try {
-      const [rows] = await connection.execute( `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${username}' AND doctor_photo = '${photo}' `); 
+      const [rows] = await connection.execute( `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE doctor = '${first_name}' AND doctor_photo = '${photo}' `); 
       if (rows.length === 0) {
         return res.status(400).json({ error: "There are no patients" });
       }
