@@ -53,7 +53,7 @@ const patientController = {
     }
   },
   async  getDoctorPatients(req, res) {
-    const{doctor,doctor_photo} = req.body;
+    const{doctor,doctor_photo} = req.params;
     
     if (!first_name || !photo) {
       return res.status(400).json({ error: "Missing required fields" });
@@ -73,7 +73,7 @@ const patientController = {
     }
   },
   async  getDoctor(req, res) {
-    const{patient_id} = req.body;
+    const{patient_id} =  req.params;
     
     if (!patient_id) {
       return res.status(400).json({ error: "Missing required fields" });
