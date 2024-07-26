@@ -8,14 +8,21 @@ async function downloadImage(url) {
   const filePath = path.join(__dirname, 'public', 'images', filename);
 
   try {
+    console.log(`Downloading image from URL: ${url}`);
     const response = await axios.get(url, { responseType: 'arraybuffer' });
-    fs.writeFileSync(filePath, response.data);
-    return `/images/${filename}`;
+    console.log(`Response status: ${response.status}`); // Debug log
+    if (response.status === 200) {
+      fs.writeFileSync(filePath, response.data);
+      return `/images/${filename}`;
+    } else {
+      throw new Error(`Failed to download image, status code: ${response.status}`);
+    }
   } catch (error) {
     console.error('Error downloading the image:', error.message);
     throw new Error('Failed to download image');
   }
 }
+
 const userController = {
   async addUser(req, res) {
     const {users_id,first_name,last_name,user_password,email,photo,username,user_type} = req.body;
