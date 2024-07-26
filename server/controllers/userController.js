@@ -59,18 +59,17 @@ const userController = {
 
     try {
       let [rows] = await connection.execute(
-        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${req.params.username}' AND user_password='${req.params.user_password}'`
+        `SELECT * FROM dbShnkr24stud.tbl_121_users WHERE username = '${req.params.username}' AND user_password ='${req.params.user_password}' `
       );
 
-      if (rows.length === 0) {
-        return res
-          .status(404)
-          .json({ error: "User not found" });
-      }
       if (rows.length > 0) {
         res.json({ success: true});
       }
-      
+      if (rows.length === 0) {
+        return res
+          .status(404)
+          .json({ error: "User not found , username is invalid" });
+      }
     } catch (err) {
       console.error("Error retrieving user from the database:", err.message);
       res
