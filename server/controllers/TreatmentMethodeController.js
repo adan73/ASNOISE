@@ -46,7 +46,7 @@ const TreatmentMethodeController = {
         );
   
         if (rows.length > 0) {
-          res.json({ success: true});
+          res.json({patients: rows});
         }
         if (rows.length === 0) {
           return res
