@@ -127,7 +127,7 @@ async getDoctor(req, res) {
     const connection = await dbConnection.createConnection();
     try {
       const [result] = await connection.execute(`UPDATE dbShnkr24stud.tbl_121_patients
-         SET ? WHERE patient_id = '${patientId}'`,
+         SET ? WHERE patient_id = '${patient_id}'`,
       [updatedData]);
   
       if (result.affectedRows > 0) {
