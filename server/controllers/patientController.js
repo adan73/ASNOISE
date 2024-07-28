@@ -119,15 +119,11 @@ async getDoctor(req, res) {
     }
   },
   async  updatePatient(req, res) {
-    const { patient_id} = req.params;
-    if (!patient_id) {
-      return res.status(400).json({ error: "Missing patient_id" });
-    }
     const updatedData = req.body;
     const connection = await dbConnection.createConnection();
     try {
       const [result] = await connection.execute(`UPDATE dbShnkr24stud.tbl_121_patients
-         SET ? WHERE patient_id = '${patient_id}'`,
+         SET ? WHERE patient_id = '${req.params.patient_id}'`,
       [updatedData]);
   
       if (result.affectedRows > 0) {
