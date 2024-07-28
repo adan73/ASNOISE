@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 });
 app.use(express.static('client'));
 
-app.use("/images", express.static(`${__dirname}/public`));
+app.use("/assets", express.static(`${__dirname}/public`));
 
 app.use('/api/activity', activityRoutes);
 app.use('/api/patients', patientRoutes);
