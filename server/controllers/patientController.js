@@ -73,8 +73,7 @@ async getDoctor(req, res) {
     const connection = await dbConnection.createConnection();
     try {
         const [rows] = await connection.execute(
-            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${req.params.patient_id}'`,
-            [patient_id]
+            `SELECT * FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${req.params.patient_id}'`
         );
 
         if (rows.length === 0) {
@@ -130,7 +129,7 @@ async getDoctor(req, res) {
          adhdStage = '${adhdStage}', age = '${age}', career = '${career}', address = '${address}', 
          phone = '${phone}', email = '${email}', photo ='${photo}', doctor = '${doctor}', doctor_photo ='${doctor_photo}'
          WHERE patient_id = '${patient_id}'`);
-         
+
       if (result.affectedRows > 0) {
         res.status(200).json({ success: true, message: "Patient updated successfully" });
       } else {
