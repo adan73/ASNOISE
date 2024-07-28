@@ -7,6 +7,7 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const activityRoutes = require('./routes/activityRoutes');
+const treatmentRoutes = require('./routes/treatmentRoutes');
 
 const { dbConnection } = require('../server/db_connection');
 
@@ -33,12 +34,13 @@ app.use((req, res, next) => {
 });
 app.use(express.static('client'));
 
-app.use("/assets", express.static(`${__dirname}/public`));
+app.use("/images", express.static(`${__dirname}/public`));
 
+app.use('/api/treatment', treatmentRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/users', userRoutes);
-app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 app.get('/test', (req, res) => {
     res.send('Server is working!');
