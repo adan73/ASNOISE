@@ -3,7 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fetch = require('node-fetch');
+require('dotenv').config();
+const axios = require('axios');
+
 const userRoutes = require('./routes/userRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const activityRoutes = require('./routes/activityRoutes');
@@ -14,10 +16,18 @@ const { dbConnection } = require('../server/db_connection');
 const app = express();
 const port = process.env.PORT || 8081;
 
+app.use(express.static('public')); // Serve static files from the 'public' directory
+
 app.get('/api/hospitals', async (req, res) => {
   try {
-    const response = await fetch('http://www.communitybenefitinsight.org/api/get_hospitals.php?state=IL');
-    if (!response.ok) throw new Error('Network response was not ok');
+    const fetch = (await import('node-fetch')).default;
+    const apiUrl = process.env.API_URL; // Use environment variable
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
     const data = await response.json();
     res.json(data);
   } catch (error) {
@@ -25,6 +35,8 @@ app.get('/api/hospitals', async (req, res) => {
     res.status(500).send('Error fetching data');
   }
 });
+
+
 
 
 
