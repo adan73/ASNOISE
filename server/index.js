@@ -38,10 +38,18 @@ app.get('/api/hospitals', async (req, res) => {
 
 
 app.use(cors());
-
-app.get('http://www.communitybenefitinsight.org/api/get_hospitals.php?state=IL', (req, res) => {
-  res.json({ message: 'This is CORS-enabled for all origins!' });
-});
+app.get('/api/hospitals', async (req, res) => {
+    try {
+      const response = await fetch('http://www.communitybenefitinsight.org/api/get_hospitals.php?state=IL');
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+      const data = await response.json();
+      res.json(data);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  });
 
 
 app.use(bodyParser.json());
