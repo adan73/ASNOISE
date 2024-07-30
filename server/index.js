@@ -37,13 +37,13 @@ app.get('/api/hospitals', async (req, res) => {
 });
 
 
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://127.0.0.1:5501"
+    }));
 app.get('/api/hospitals', async (req, res) => {
     try {
       const response = await fetch('http://www.communitybenefitinsight.org/api/get_hospitals.php?state=IL');
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
       const data = await response.json();
       res.json(data);
     } catch (error) {
