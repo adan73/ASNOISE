@@ -37,11 +37,13 @@ app.get('/api/hospitals', async (req, res) => {
 });
 
 
-
-
-
-
 app.use(cors());
+
+app.get('/api', (req, res) => {
+  res.json({ message: 'This is CORS-enabled for all origins!' });
+});
+
+
 app.use(bodyParser.json());
 
 app.use(express.json());
