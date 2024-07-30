@@ -18,23 +18,6 @@ const port = process.env.PORT || 8081;
 
 app.use(express.static('public')); // Serve static files from the 'public' directory
 
-app.get('/api/hospitals', async (req, res) => {
-  try {
-    const fetch = (await import('node-fetch')).default;
-    const apiUrl = process.env.API_URL; // Use environment variable
-    const response = await fetch(apiUrl);
-    
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    res.json(data);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).send('Error fetching data');
-  }
-});
 
 
 app.use(
