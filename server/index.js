@@ -39,7 +39,7 @@ app.get('/api/hospitals', async (req, res) => {
 
 app.use(cors());
 
-app.get('/api', (req, res) => {
+app.get('http://www.communitybenefitinsight.org/api/get_hospitals.php?state=IL', (req, res) => {
   res.json({ message: 'This is CORS-enabled for all origins!' });
 });
 
