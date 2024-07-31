@@ -10,8 +10,8 @@ const userRoutes = require('./routes/userRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const treatmentRoutes = require('./routes/treatmentRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
-const { dbConnection } = require('../server/db_connection');
 
 const app = express();
 const port = process.env.PORT || 8081;
@@ -51,6 +51,7 @@ app.use(express.static('client'));
 
 app.use("/images", express.static(`${__dirname}/public`));
 
+app.use('/api/chat', chatRoutes);
 app.use('/api/treatment', treatmentRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/patients', patientRoutes);
