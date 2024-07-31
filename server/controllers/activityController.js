@@ -64,10 +64,10 @@ const activityController = {
           `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE username = '${req.params.username}' AND date ='${req.params.date}'` );
     
         if (rows.length === 0) {
-          return res.status(404).json({message: "There is not a activity in this date" } );
+          return res.status(404).json({success: false, message: "There is not a activity in this date" } );
         }
     
-        res.status(200).json(rows);
+        res.status(200).json( {success: true, activity: rows});
     
       } catch (err) {
         console.error("Error retrieving user from the database:", err.message);
