@@ -37,7 +37,7 @@ const improvementController = {
       if (rows.length === 0) {
         return res.status(400).json({ error: "There are no improvement and goal for this patient" });
       }
-      res.status(200).json({ success: true, current: rows.current , target: rows.target });
+      res.status(200).json({ success: true, improvement: rows});
     } catch (err) {
         console.error("Error inserting improvement into the database:", err.message);
         res.status(500).json({ error: "Error inserting improvement into the database" });
