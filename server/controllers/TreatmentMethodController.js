@@ -1,7 +1,7 @@
 const { dbConnection } = require("../db_connection");
 
 
-const TreatmentMethodeController = {
+const TreatmentMethodController = {
     async addTreatment(req, res) {
       const {patient_id,method} = req.body;
   
@@ -64,4 +64,4 @@ const TreatmentMethodeController = {
     },
 };
 
-module.exports = { TreatmentMethodeController };
+module.exports = { TreatmentMethodController };
