@@ -11,6 +11,7 @@ const patientRoutes = require('./routes/patientRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const treatmentRoutes = require('./routes/treatmentRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const improvementRoutes = require('./routes/improvementRoutes');
 
 
 const app = express();
@@ -50,7 +51,7 @@ app.use((req, res, next) => {
 app.use(express.static('client'));
 
 app.use("/images", express.static(`${__dirname}/public`));
-
+app.use('/api/improvement', improvementRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/treatment', treatmentRoutes);
 app.use('/api/activity', activityRoutes);
