@@ -33,7 +33,7 @@ const chatController = {
       if (rows.length === 0) {
         return res.status(400).json({ error: "There are no chat history for this patient" });
       }
-      res.status(200).json({ messages: rows });
+      res.status(200).json({ success: true,  messages: rows });
     } catch (err) {
       console.error("Error inserting message into the database:", err.message);
       res.status(500).json({ error: "Error inserting message into the database" });
