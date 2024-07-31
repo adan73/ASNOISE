@@ -58,18 +58,13 @@ const activityController = {
     },
     async  getActivityFor_Date(req, res) {
       const connection = await dbConnection.createConnection();
-      const {username , date}  = req.body;
-    
       try {
-        if (!date || !username) {
-          return res.status(400).json({ error: "No date or username provided" });
-        }
     
         let [rows] = await connection.execute(
-          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE username = '${username}' AND date = '${date}'` );
+          `SELECT * FROM dbShnkr24stud.tbl_121_user_activity WHERE username = '${req.params.username}' AND date ='${req.params.date}'` );
     
         if (rows.length === 0) {
-          return res.status(404).json([]);
+          return res.status(404).json({message: "There is not a activity in this date" } );
         }
     
         res.status(200).json(rows);
