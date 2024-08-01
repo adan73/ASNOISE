@@ -112,7 +112,7 @@ async getDoctor(req, res) {
     }
   },
   async  updatePatient(req, res) {
-    const {first_name, last_name, hmo, adhdStage, age, career, address, phone, email, photo, doctor, doctor_photo } = req.body;
+    const {patient_id,first_name, last_name, hmo, adhdStage, age, career, address, phone, email, photo, doctor, doctor_photo } = req.body;
     const connection = await dbConnection.createConnection();
     try {
       const [result] = await connection.execute(`UPDATE dbShnkr24stud.tbl_121_patients
