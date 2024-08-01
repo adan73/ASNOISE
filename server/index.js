@@ -23,7 +23,7 @@ app.use(express.static('public')); // Serve static files from the 'public' direc
 
 app.use(
     cors({
-        origin: "http://127.0.0.1:5501"
+        origin: "http://se.shenkar.ac.il"
     }));
 app.get('/api/hospitals', async (req, res) => {
     try {
