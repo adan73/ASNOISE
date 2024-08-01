@@ -93,17 +93,11 @@ async getDoctor(req, res) {
 },
 
   async  deletePatient(req, res) {
-    const { patient_id } = req.body;
-  
-    if (!patient_id) {
-      return res.status(400).json({ error: "Missing patient_id" });
-    }
-  
     const connection = await dbConnection.createConnection();
   
     try {
       const [result] = await connection.execute(
-        `DELETE FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${patient_id}'`);
+        `DELETE FROM dbShnkr24stud.tbl_121_patients WHERE patient_id = '${req.params.patient_id}'`);
   
       if (result.affectedRows > 0) {
         res.status(200).json({ success: true, message: "Patient deleted successfully" });
@@ -118,17 +112,14 @@ async getDoctor(req, res) {
     }
   },
   async  updatePatient(req, res) {
-    const { patient_id, first_name, last_name, hmo, adhdStage, age, career, address, phone, email, photo, doctor, doctor_photo } = req.body;
-    if (!patient_id) {
-      return res.status(400).json({ error: "Missing patient_id" });
-    }
+    const {first_name, last_name, hmo, adhdStage, age, career, address, phone, email, photo, doctor, doctor_photo } = req.body;
     const connection = await dbConnection.createConnection();
     try {
       const [result] = await connection.execute(`UPDATE dbShnkr24stud.tbl_121_patients
          SET first_name = '${first_name}', last_name = '${last_name}', hmo ='${hmo}', 
          adhdStage = '${adhdStage}', age = '${age}', career = '${career}', address = '${address}', 
          phone = '${phone}', email = '${email}', photo ='${photo}', doctor = '${doctor}', doctor_photo ='${doctor_photo}'
-         WHERE patient_id = '${patient_id}'`);
+         WHERE patient_id = '${req.params.patient_id}'`);
 
       if (result.affectedRows > 0) {
         res.status(200).json({ success: true, message: "Patient updated successfully" });
