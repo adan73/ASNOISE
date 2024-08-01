@@ -55,6 +55,32 @@ const userController = {
       await connection.end();
     }
   },
+  async getAllUsers(req, res) {
+  
+    const connection = await dbConnection.createConnection();
+
+    try {
+      let [rows] = await connection.execute(
+        `SELECT * FROM dbShnkr24stud.tbl_121_users`
+      );
+
+      if (rows.length > 0) {
+        res.json({ Users: rows});
+      }
+      if (rows.length === 0) {
+        return res
+          .status(404)
+          .json({ error: "There are no users" });
+      }
+    } catch (err) {
+      console.error("Error retrieving user from the database:", err.message);
+      res
+        .status(500)
+        .json({ error: "Error retrieving data from the database" });
+    } finally {
+      connection.end();
+    }
+  },
   async getUser(req, res) {
   
     const connection = await dbConnection.createConnection();
